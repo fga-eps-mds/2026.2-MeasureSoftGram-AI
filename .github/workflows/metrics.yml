@@ -19,7 +19,16 @@ jobs:
 
       - name: Coletar métricas no SonarCloud
         run: python parser.py ${{ github.event.repository.name }} ${{ github.ref_name }}
-
+      
+      - name: Diagnóstico do token
+        env:
+          API_TOKEN_DOC: ${{ secrets.API_TOKEN_DOC }}
+        run: |
+          if [ -z "$API_TOKEN_DOC" ]; then
+            echo "❌ VAZIO — o secret não existe neste repositório ou não está visível para ele"
+          else
+            echo "✅ presente, ${#API_TOKEN_DOC} caracteres"
+          fi
       - name: Envia métricas para repo de Doc
         run: |
           git config --global user.email "${{secrets.USER_EMAIL}}"
