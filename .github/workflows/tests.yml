@@ -12,20 +12,12 @@ jobs:
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     steps:
-<<<<<<< HEAD
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.2.2
-=======
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
->>>>>>> develop
         with:
           fetch-depth: 0
 
       - name: Configurar Python
-<<<<<<< HEAD
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.4.0
-=======
         uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
->>>>>>> develop
         with:
           python-version: "3.11"
 
@@ -36,10 +28,6 @@ jobs:
         run: |
           pytest --cov=src --cov-branch --cov-report=xml:coverage.xml --cov-report=term-missing --junitxml=junit.xml
 
-<<<<<<< HEAD
-      - name: Scanner do SonarCloud
-        uses: SonarSource/sonarqube-scan-action@a31c9398be7ace6bbfaf30c0bd5d415f843d45e9 # v7.0.0
-=======
       - name: Corrige reports path para container SonarCloud
         run: |
           sed -i "s#<source>${GITHUB_WORKSPACE}</source>#<source>/github/workspace</source>#g" coverage.xml || true
@@ -71,7 +59,6 @@ jobs:
       - name: Scanner do SonarCloud (Fallback local com secrets)
         if: env.SONAR_TOKEN != ''
         uses: SonarSource/sonarqube-scan-action@ba9859eae8dd6bd29e412f25ddbbef3d032000f4 # v8.2.2
->>>>>>> develop
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
