@@ -44,7 +44,7 @@ def test_buscar_release_config_atual_erro_404_lanca_excecao(registered_tools):
     assert exc_info.value.response.status_code == 404
     client.query_detail.assert_called_once_with(
         f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
-            f"current/release-config/"
+        f"current/release-config/"
     )
 
 
@@ -68,7 +68,7 @@ def test_listar_releases_erro_404_lanca_excecao(registered_tools):
     assert exc_info.value.response.status_code == 404
     client.query_list.assert_called_once_with(
         f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
-            f"release/"
+        f"release/"
     )
 
 
@@ -92,7 +92,7 @@ def test_verificar_release_valido_erro_404_lanca_excecao(registered_tools):
     assert exc_info.value.response.status_code == 404
     client.query_detail.assert_called_once_with(
         f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
-            f"release/is-valid/"
+        f"release/is-valid/"
     )
 
 
@@ -117,7 +117,7 @@ def test_buscar_release_erro_404_lanca_excecao(registered_tools):
     assert exc_info.value.response.status_code == 404
     client.query_detail.assert_called_once_with(
         f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
-            f"release/{release_id}/"
+        f"release/{release_id}/"
     )
 
 
@@ -142,7 +142,7 @@ def test_buscar_analysis_data_release_erro_404_lanca_excecao(registered_tools):
     assert exc_info.value.response.status_code == 404
     client.query_detail.assert_called_once_with(
         f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
-            f"release/{release_id}/analysis_data/"
+        f"release/{release_id}/analysis_data/"
     )
 
 
@@ -167,7 +167,7 @@ def test_buscar_planned_x_accomplished_erro_404_lanca_excecao(registered_tools):
     assert exc_info.value.response.status_code == 404
     client.query_detail.assert_called_once_with(
         f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
-            f"release/{release_id}/planeed-x-accomplished/"
+        f"release/{release_id}/planeed-x-accomplished/"
     )
 
 
@@ -276,6 +276,7 @@ def test_buscar_planned_x_accomplished_chama_url_correta_e_trata_dados(registere
             "norm_diff": 0,
         },
     ]
+
 
 def test_buscar_planned_x_accomplished_erro_no_tratamento_retorna_raw_com_erro(
     registered_tools,
