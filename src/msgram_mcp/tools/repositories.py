@@ -8,7 +8,8 @@ def register_tools(mcp: FastMCP, client: MsgramClient):
     def listar_repositorios(organization_pk: int, product_pk: int) -> list[dict]:
         """Lista todos os repositórios de um produto."""
         return client.query_list(
-            f"{client.service}organizations/{organization_pk}/products/{product_pk}/repositories/"
+            f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
+            f"repositories/"
         )
 
     @mcp.tool()
@@ -17,7 +18,8 @@ def register_tools(mcp: FastMCP, client: MsgramClient):
     ) -> dict:
         """Retorna os detalhes de um repositório pelo seu ID."""
         return client.query_detail(
-            f"{client.service}organizations/{organization_pk}/products/{product_pk}/repositories/{repository_id}/"
+            f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
+            f"repositories/{repository_id}/"
         )
 
     @mcp.tool()
@@ -26,7 +28,8 @@ def register_tools(mcp: FastMCP, client: MsgramClient):
     ) -> list[dict]:
         """Retorna as entidades de uma pré-configuração e suas relações no formato de árvore."""
         return client.query_list(
-            f"{client.service}organizations/{organization_pk}/products/{product_pk}/entity-relationship-tree/"
+            f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
+            f"entity-relationship-tree/"
         )
 
     @mcp.tool()
@@ -35,7 +38,8 @@ def register_tools(mcp: FastMCP, client: MsgramClient):
     ) -> list[dict]:
         """Lista o histórico de TSQMI de todos os repositórios de um produto."""
         return client.query_list(
-            f"{client.service}organizations/{organization_pk}/products/{product_pk}/repositories-tsqmi-historical-values/"
+            f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
+            f"repositories-tsqmi-historical-values/"
         )
 
     @mcp.tool()
@@ -44,5 +48,6 @@ def register_tools(mcp: FastMCP, client: MsgramClient):
     ) -> list[dict]:
         """Lista o TSQMI mais recente de todos os repositórios de um produto."""
         return client.query_list(
-            f"{client.service}organizations/{organization_pk}/products/{product_pk}/repositories-tsqmi-latest-values/"
+            f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
+            f"repositories-tsqmi-latest-values/"
         )
