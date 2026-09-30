@@ -1,12 +1,27 @@
 name: Publish Docker Image
 
 on:
+  workflow_call:
+    inputs:
+      version:
+        description: "Versão SemVer completa (ex: 1.2.3)"
+        required: true
+        type: string
+      major:
+        description: "Versão Major (ex: 1)"
+        required: true
+        type: string
+      minor:
+        description: "Versão Minor (ex: 2)"
+        required: true
+        type: string
+      tag_name:
+        description: "Tag Git da release (ex: v1.2.3)"
+        required: false
+        type: string
   push:
-    branches:
-      - main
     tags:
-      - 'v*.*.*'
-      - 'v*'
+      - "v*"
   workflow_dispatch:
 
 jobs:
@@ -15,6 +30,46 @@ jobs:
     steps:
       - name: Checkout do código
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ inputs.tag_name || github.ref }}
+
+      - name: Calcular tags SemVer e SHA para o DockerHub
+        id: meta
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+          INPUT_MAJOR: ${{ inputs.major }}
+          INPUT_MINOR: ${{ inputs.minor }}
+          REF_NAME: ${{ github.ref_name }}
+          REF_TYPE: ${{ github.ref_type }}
+          FULL_SHA: ${{ github.sha }}
+        run: |
+          SHORT_SHA="${FULL_SHA:0:7}"
+          TAGS="fga-eps-mds/ai:sha-${SHORT_SHA}"
+
+          VERSION="${INPUT_VERSION}"
+          MAJOR="${INPUT_MAJOR}"
+          MINOR="${INPUT_MINOR}"
+
+          if [ -z "${VERSION}" ] && [ "${REF_TYPE}" = "tag" ]; then
+            CLEAN_VER="${REF_NAME#v}"
+            if [[ "${CLEAN_VER}" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+              VERSION="${CLEAN_VER}"
+              MAJOR="${BASH_REMATCH[1]}"
+              MINOR="${BASH_REMATCH[2]}"
+            fi
+          fi
+
+          if [ -n "${VERSION}" ]; then
+            TAGS="${TAGS},fga-eps-mds/ai:${VERSION}"
+            TAGS="${TAGS},fga-eps-mds/ai:${MAJOR}.${MINOR}"
+            if [ "${MAJOR}" -ge 1 ] 2>/dev/null; then
+              TAGS="${TAGS},fga-eps-mds/ai:${MAJOR}"
+            fi
+            TAGS="${TAGS},fga-eps-mds/ai:latest"
+          fi
+
+          echo "tags=${TAGS}" >> "$GITHUB_OUTPUT"
+          echo "Tags calculadas para publicação no DockerHub: ${TAGS}"
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3.10.0
@@ -32,7 +87,4 @@ jobs:
           file: ./Dockerfile
           target: runtime
           push: true
-          tags: |
-            fga-eps-mds/ai:latest
-            fga-eps-mds/ai:${{ github.ref_name }}
-            fga-eps-mds/ai:sha-${{ github.sha }}
+          tags: ${{ steps.meta.outputs.tags }}
