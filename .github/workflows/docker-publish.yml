@@ -36,6 +36,7 @@ jobs:
       - name: Calcular tags SemVer e SHA para o DockerHub
         id: meta
         env:
+          DOCKERHUB_NAMESPACE: ${{ secrets.DOCKERHUB_USERNAME }}
           INPUT_VERSION: ${{ inputs.version }}
           INPUT_MAJOR: ${{ inputs.major }}
           INPUT_MINOR: ${{ inputs.minor }}
@@ -44,7 +45,8 @@ jobs:
           FULL_SHA: ${{ github.sha }}
         run: |
           SHORT_SHA="${FULL_SHA:0:7}"
-          TAGS="fga-eps-mds/ai:sha-${SHORT_SHA}"
+          IMAGE="${DOCKERHUB_NAMESPACE}/ai"
+          TAGS="${IMAGE}:sha-${SHORT_SHA}"
 
           VERSION="${INPUT_VERSION}"
           MAJOR="${INPUT_MAJOR}"
@@ -60,12 +62,12 @@ jobs:
           fi
 
           if [ -n "${VERSION}" ]; then
-            TAGS="${TAGS},fga-eps-mds/ai:${VERSION}"
-            TAGS="${TAGS},fga-eps-mds/ai:${MAJOR}.${MINOR}"
+            TAGS="${TAGS},${IMAGE}:${VERSION}"
+            TAGS="${TAGS},${IMAGE}:${MAJOR}.${MINOR}"
             if [ "${MAJOR}" -ge 1 ] 2>/dev/null; then
-              TAGS="${TAGS},fga-eps-mds/ai:${MAJOR}"
+              TAGS="${TAGS},${IMAGE}:${MAJOR}"
             fi
-            TAGS="${TAGS},fga-eps-mds/ai:latest"
+            TAGS="${TAGS},${IMAGE}:latest"
           fi
 
           echo "tags=${TAGS}" >> "$GITHUB_OUTPUT"
