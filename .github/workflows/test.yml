@@ -46,5 +46,4 @@ jobs:
         with:
           args: >
             -Dsonar.projectKey=${{ github.repository_owner }}_${{ github.event.repository.name }}
-            -Dsonar.organization=${{ github.repository_owner }}
             -Dsonar.python.coverage.reportPaths=coverage.xml
