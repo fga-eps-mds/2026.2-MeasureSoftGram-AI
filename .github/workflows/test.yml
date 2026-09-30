@@ -1,0 +1,50 @@
+name: Rodar Testes
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+  push:
+    branches:
+      - develop
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependências
+        run: pip install -e ".[dev]" flake8
+
+      - name: Linter e Validação de Sintaxe (Step 1)
+        run: |
+          flake8 src tests
+          python -m compileall -q src tests
+
+      - name: Rodar Testes (Step 2)
+        run: |
+          pytest --cov=src --cov-branch --cov-report=xml:coverage.xml --cov-report=term-missing --junitxml=junit.xml
+
+      - name: Ajustar paths do coverage
+        run: sed -i 's/\/home\/runner\/work\/MeasureSoftGram-AI\/MeasureSoftGram-AI\///g' coverage.xml || true
+
+      - name: SonarCloud Scan (Step 3)
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        uses: SonarSource/sonarqube-scan-action@ba9859eae8dd6bd29e412f25ddbbef3d032000f4 # v8.2.2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=${{ github.repository_owner }}_${{ github.event.repository.name }}
+            -Dsonar.organization=${{ github.repository_owner }}
+            -Dsonar.python.coverage.reportPaths=coverage.xml
