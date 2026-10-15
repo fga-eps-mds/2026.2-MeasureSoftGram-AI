@@ -10,7 +10,8 @@ def register_tools(mcp: FastMCP, client: MsgramClient):
     ) -> list[dict]:
         """Lista o último valor calculado de cada característica de um repositório."""
         return client.query_list(
-            f"{client.service}organizations/{organization_pk}/products/{product_pk}/repositories/{repository_pk}/latest-values/characteristics/"
+            f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
+            f"repositories/{repository_pk}/latest-values/characteristics/"
         )
 
     @mcp.tool()
@@ -19,7 +20,8 @@ def register_tools(mcp: FastMCP, client: MsgramClient):
     ) -> dict:
         """Retorna o último valor calculado de uma característica específica de um repositório."""
         return client.query_detail(
-            f"{client.service}organizations/{organization_pk}/products/{product_pk}/repositories/{repository_pk}/latest-values/characteristics/{characteristic_id}/"
+            f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
+            f"repositories/{repository_pk}/latest-values/characteristics/{characteristic_id}/"
         )
 
     @mcp.tool()
@@ -28,7 +30,8 @@ def register_tools(mcp: FastMCP, client: MsgramClient):
     ) -> list[dict]:
         """Lista o último valor calculado de cada subcaracterística de um repositório."""
         return client.query_list(
-            f"{client.service}organizations/{organization_pk}/products/{product_pk}/repositories/{repository_pk}/latest-values/subcharacteristics/"
+            f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
+            f"repositories/{repository_pk}/latest-values/subcharacteristics/"
         )
 
     @mcp.tool()
@@ -37,7 +40,8 @@ def register_tools(mcp: FastMCP, client: MsgramClient):
     ) -> dict:
         """Retorna o último valor calculado de uma subcaracterística específica de um repositório."""
         return client.query_detail(
-            f"{client.service}organizations/{organization_pk}/products/{product_pk}/repositories/{repository_pk}/latest-values/subcharacteristics/{subcharacteristic_id}/"
+            f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
+            f"repositories/{repository_pk}/latest-values/subcharacteristics/{subcharacteristic_id}/"
         )
 
     @mcp.tool()
@@ -46,7 +50,8 @@ def register_tools(mcp: FastMCP, client: MsgramClient):
     ) -> list[dict]:
         """Lista o último valor coletado de cada medida de um repositório."""
         return client.query_list(
-            f"{client.service}organizations/{organization_pk}/products/{product_pk}/repositories/{repository_pk}/latest-values/measures/"
+            f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
+            f"repositories/{repository_pk}/latest-values/measures/"
         )
 
     @mcp.tool()
@@ -55,7 +60,8 @@ def register_tools(mcp: FastMCP, client: MsgramClient):
     ) -> dict:
         """Retorna o último valor coletado de uma medida específica de um repositório."""
         return client.query_detail(
-            f"{client.service}organizations/{organization_pk}/products/{product_pk}/repositories/{repository_pk}/latest-values/measures/{measure_id}/"
+            f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
+            f"repositories/{repository_pk}/latest-values/measures/{measure_id}/"
         )
 
     @mcp.tool()
@@ -64,7 +70,8 @@ def register_tools(mcp: FastMCP, client: MsgramClient):
     ) -> list[dict]:
         """Lista o último valor coletado de cada métrica de um repositório."""
         return client.query_list(
-            f"{client.service}organizations/{organization_pk}/products/{product_pk}/repositories/{repository_pk}/latest-values/metrics/"
+            f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
+            f"repositories/{repository_pk}/latest-values/metrics/"
         )
 
     @mcp.tool()
@@ -73,7 +80,8 @@ def register_tools(mcp: FastMCP, client: MsgramClient):
     ) -> dict:
         """Retorna o último valor coletado de uma métrica específica de um repositório."""
         return client.query_detail(
-            f"{client.service}organizations/{organization_pk}/products/{product_pk}/repositories/{repository_pk}/latest-values/metrics/{metric_id}/"
+            f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
+            f"repositories/{repository_pk}/latest-values/metrics/{metric_id}/"
         )
 
     @mcp.tool()
@@ -82,7 +90,8 @@ def register_tools(mcp: FastMCP, client: MsgramClient):
     ) -> list[dict]:
         """Lista o último valor de TSQMI de um repositório."""
         return client.query_list(
-            f"{client.service}organizations/{organization_pk}/products/{product_pk}/repositories/{repository_pk}/latest-values/tsqmi/"
+            f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
+            f"repositories/{repository_pk}/latest-values/tsqmi/"
         )
 
     @mcp.tool()
@@ -91,5 +100,6 @@ def register_tools(mcp: FastMCP, client: MsgramClient):
     ) -> dict:
         """Retorna o badge de TSQMI de um repositório."""
         return client.query_detail(
-            f"{client.service}organizations/{organization_pk}/products/{product_pk}/repositories/{repository_pk}/latest-values/tsqmi/badge/"
+            f"{client.service}organizations/{organization_pk}/products/{product_pk}/"
+            f"repositories/{repository_pk}/latest-values/tsqmi/badge/"
         )
