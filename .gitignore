@@ -24,6 +24,8 @@ wheels/
 # Pytest / Coverage / Tooling cache
 .pytest_cache/
 .coverage
+coverage.xml
+junit.xml
 htmlcov/
 
 # Virtual Environments
