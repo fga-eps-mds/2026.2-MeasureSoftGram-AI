@@ -21,7 +21,4 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
-addopts = "--ignore=src/msgram_mcp/server.py"
 
-[tool.coverage.run]
-omit = ["src/msgram_mcp/server.py"]
